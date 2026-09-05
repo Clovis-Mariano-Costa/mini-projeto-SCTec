@@ -47,7 +47,7 @@ O projeto está sendo construído gradualmente, acompanhando as etapas organizad
 - GitHub Desktop
 - Trello
 
-## Estrutura inicial do projeto
+## Estrutura inicial do projeto.
 
 ```text
 mini-projeto-ifsc/
