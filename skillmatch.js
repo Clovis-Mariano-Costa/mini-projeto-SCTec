@@ -32,6 +32,30 @@
 
 
 // ==============================
-// COMPATIBILIDADE
+// CÁLCULO DE COMPATIBILIDADE
 // ==============================
 
+function calcularCompatibilidade(candidato, vaga) {
+
+    const pesoTotal = vaga.requisitos.reduce((total, requisito) => {
+        return total + requisito.peso;
+    }, 0);
+
+    const pontosObtidos = vaga.requisitos.reduce((total, requisito) => {
+
+        const possuiHabilidade = candidato.habilidades.includes(
+            requisito.habilidade
+        );
+
+        if (possuiHabilidade) {
+            return total + requisito.peso;
+        }
+
+        return total;
+
+    }, 0);
+
+    const percentual = (pontosObtidos / pesoTotal) * 100;
+
+    return percentual;
+}
