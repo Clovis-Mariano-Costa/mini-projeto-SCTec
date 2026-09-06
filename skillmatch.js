@@ -20,10 +20,8 @@
  * Autor: Clovis Mariano da Costa
  * Status: Em desenvolvimento
  */
-// ==============================
-// PERFIL DO CANDIDATO
-// ==============================
 
+// ==============================
 // PERFIL DO CANDIDATO
 // ==============================
 
@@ -38,7 +36,6 @@ const candidato = {
         "GitHub"
     ],
     tempoExperienciaMeses: 0 // em meses - experiência profissional formal
-
 };
 
 // ==============================
@@ -86,6 +83,10 @@ const vagas = [
         salario: 4500
     }
 ];
+
+// ==============================
+// CLASSES E HERANÇA
+// ==============================
 
 // ==============================
 // CLASSE PRINCIPAL
@@ -168,6 +169,10 @@ console.log(vagaJus9.exibirResumo());
 console.log(vagaJus9.exibirTecnologiaPrincipal());
 
 // ==============================
+// COMPATIBILIDADE
+// ==============================
+
+// ==============================
 // CÁLCULO DE COMPATIBILIDADE
 // ==============================
 
@@ -212,9 +217,9 @@ function classificarCompatibilidade(percentual) {
 }
 
 // Testes manuais da classificação
-//console.log(classificarCompatibilidade(100));
-//console.log(classificarCompatibilidade(60));
-//console.log(classificarCompatibilidade(30));
+// console.log(classificarCompatibilidade(100));
+// console.log(classificarCompatibilidade(60));
+// console.log(classificarCompatibilidade(30));
 
 // ==============================
 // HABILIDADES FALTANTES
@@ -257,6 +262,7 @@ function encontrarMelhorVaga(candidato, vagas) {
 
     return melhorVaga;
 }
+
 // ==============================
 // EXIBIÇÃO DA MELHOR VAGA
 // ==============================
@@ -269,7 +275,6 @@ const melhorVaga = encontrarMelhorVaga(
 console.log(
     `Melhor vaga: ${melhorVaga.tituloVaga} - ${melhorVaga.empresa}`
 );
-
 
 // ==============================
 // RECOMENDAÇÃO DE ESTUDO
@@ -333,6 +338,17 @@ const resultadosCompatibilidade = vagas.map((vaga) => {
 console.log(resultadosCompatibilidade);
 
 // ==============================
+// ESTRUTURA DE REPETIÇÃO
+// ==============================
+
+for (let i = 0; i < vagas.length; i++) {
+
+    console.log(
+        `${i + 1}. ${vagas[i].tituloVaga} - ${vagas[i].empresa}`
+    );
+}
+
+// ==============================
 // CLOSURE
 // ==============================
 
@@ -341,6 +357,7 @@ function criarContadorAnalises() {
     let totalAnalises = 0;
 
     return function () {
+
         totalAnalises++;
 
         return totalAnalises;
@@ -387,24 +404,8 @@ analisarVaga(
     exibirResultadoVaga
 );
 
-
-
 // ==============================
-// COMPATIBILIDADE
-// ==============================
-
-
-
-
-// ==============================
-// Classes e Heranças
-// ==============================
-
-
-
-
-// ==============================
-// Promise e Async
+// PROMISE E ASYNC
 // ==============================
 
 // ==============================
@@ -430,7 +431,6 @@ function carregarVagas() {
 
     });
 }
-
 
 // ==============================
 // FUNÇÃO ASYNC
@@ -458,4 +458,3 @@ async function iniciarCarregamento() {
 }
 
 iniciarCarregamento();
-
