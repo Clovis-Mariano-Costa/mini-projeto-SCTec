@@ -35,7 +35,7 @@ const candidato = {
         "Git",
         "GitHub"
     ],
-    tempoExperienciaMeses: 0 // experiência profissional formal
+    tempoExperienciaMeses: 0
 };
 
 // ==============================
@@ -130,6 +130,7 @@ class VagaFrontEnd extends Vaga {
         salario,
         frameworkPrincipal
     ) {
+
         super(
             tituloVaga,
             empresa,
@@ -171,7 +172,10 @@ vagas.push(vagaJus9);
 // CÁLCULO DE COMPATIBILIDADE
 // ==============================
 
-function calcularCompatibilidade(candidato, vaga) {
+function calcularCompatibilidade(
+    candidato,
+    vaga
+) {
 
     const pesoTotal = vaga.requisitos.reduce(
         (total, requisito) => {
@@ -207,15 +211,20 @@ function calcularCompatibilidade(candidato, vaga) {
 // CLASSIFICAÇÃO DA COMPATIBILIDADE
 // ==============================
 
-function classificarCompatibilidade(percentual) {
+function classificarCompatibilidade(
+    percentual
+) {
 
     if (percentual >= 80) {
+
         return "Alta compatibilidade";
 
     } else if (percentual >= 50) {
+
         return "Média compatibilidade";
 
     } else {
+
         return "Baixa compatibilidade";
     }
 }
@@ -352,12 +361,9 @@ function gerarResultadosCompatibilidade(
 
             return {
                 empresa: vaga.empresa,
-                tituloVaga:
-                    vaga.tituloVaga,
-                percentual:
-                    percentual,
-                classificacao:
-                    classificacao
+                tituloVaga: vaga.tituloVaga,
+                percentual: percentual,
+                classificacao: classificacao
             };
         }
     );
@@ -427,97 +433,147 @@ function exibirResultadoVaga(
 }
 
 // ==============================
-// APRESENTAÇÃO DO SISTEMA
+// FUNÇÃO DE EXIBIÇÃO DO HISTÓRICO
 // ==============================
 
-console.log("\n==============================");
-console.log("        SKILLMATCH JS");
-console.log("==============================\n");
-
-console.log(
-    `Candidato: ${candidato.nome}`
-);
-
-console.log(
-    `Área de interesse: ${candidato.areaInteresse}`
-);
-
-// ==============================
-// EXIBIÇÃO DAS VAGAS
-// ==============================
-
-console.log(
-    "\n=== VAGAS CADASTRADAS ===\n"
-);
-
-for (
-    let i = 0;
-    i < vagas.length;
-    i++
+function exibirHistorico(
+    candidatoAnalisado,
+    vagasAnalisadas,
+    titulo = "SKILLMATCH JS"
 ) {
 
     console.log(
-        `${i + 1}. ${vagas[i].tituloVaga} - ${vagas[i].empresa}`
+        "\n=============================="
+    );
+
+    console.log(
+        `        ${titulo}`
+    );
+
+    console.log(
+        "==============================\n"
+    );
+
+    console.log(
+        `Candidato: ${candidatoAnalisado.nome}`
+    );
+
+    console.log(
+        `Área de interesse: ${candidatoAnalisado.areaInteresse}`
+    );
+
+    console.log(
+        `Experiência profissional: ${candidatoAnalisado.tempoExperienciaMeses} meses`
+    );
+
+    console.log(
+        `Habilidades: ${candidatoAnalisado.habilidades.join(", ")}`
+    );
+
+    // ==============================
+    // EXIBIÇÃO DAS VAGAS
+    // ==============================
+
+    console.log(
+        "\n=== VAGAS CADASTRADAS ===\n"
+    );
+
+    for (
+        let i = 0;
+        i < vagasAnalisadas.length;
+        i++
+    ) {
+
+        console.log(
+            `${i + 1}. ${vagasAnalisadas[i].tituloVaga} - ${vagasAnalisadas[i].empresa}`
+        );
+    }
+
+    // ==============================
+    // EXIBIÇÃO DOS RESULTADOS
+    // ==============================
+
+    console.log(
+        "\n=== RESULTADOS DE COMPATIBILIDADE ===\n"
+    );
+
+    const resultadosCompatibilidade =
+        gerarResultadosCompatibilidade(
+            candidatoAnalisado,
+            vagasAnalisadas
+        );
+
+    resultadosCompatibilidade.forEach(
+        (resultado) => {
+
+            console.log(
+                `${resultado.empresa} - ${resultado.percentual}% - ${resultado.classificacao}`
+            );
+        }
+    );
+
+    // ==============================
+    // MELHOR VAGA
+    // ==============================
+
+    const melhorVaga =
+        encontrarMelhorVaga(
+            candidatoAnalisado,
+            vagasAnalisadas
+        );
+
+    console.log(
+        "\n=== MELHOR VAGA ===\n"
+    );
+
+    console.log(
+        `${melhorVaga.tituloVaga} - ${melhorVaga.empresa}`
+    );
+
+    // ==============================
+    // RECOMENDAÇÃO DE ESTUDO
+    // ==============================
+
+    const vagaParaEstudo =
+        vagasAnalisadas[2];
+
+    const recomendacao =
+        criarRecomendacaoEstudo(
+            candidatoAnalisado,
+            vagaParaEstudo
+        );
+
+    console.log(
+        "\n=== RECOMENDAÇÃO DE ESTUDO ===\n"
+    );
+
+    console.log(
+        recomendacao
+    );
+
+    // ==============================
+    // CALLBACK
+    // ==============================
+
+    console.log(
+        "\n=== ANÁLISE COM CALLBACK ===\n"
+    );
+
+    analisarVaga(
+        candidatoAnalisado,
+        melhorVaga,
+        exibirResultadoVaga
     );
 }
 
 // ==============================
-// EXIBIÇÃO DOS RESULTADOS
+// HISTÓRICO INICIAL
 // ==============================
 
-console.log(
-    "\n=== RESULTADOS DE COMPATIBILIDADE ===\n"
-);
-
-const resultadosCompatibilidade =
-    gerarResultadosCompatibilidade(
-        candidato,
-        vagas
-    );
-
-resultadosCompatibilidade.forEach(
-    (resultado) => {
-
-        console.log(
-            `${resultado.empresa} - ${resultado.percentual}% - ${resultado.classificacao}`
-        );
-    }
-);
-
-// ==============================
-// EXIBIÇÃO DA MELHOR VAGA
-// ==============================
-
-const melhorVaga =
-    encontrarMelhorVaga(
-        candidato,
-        vagas
-    );
-
-console.log(
-    "\n=== MELHOR VAGA ===\n"
-);
-
-console.log(
-    `${melhorVaga.tituloVaga} - ${melhorVaga.empresa}`
-);
-
-// ==============================
-// EXIBIÇÃO DA RECOMENDAÇÃO
-// ==============================
-
-const recomendacao =
-    criarRecomendacaoEstudo(
-        candidato,
-        vagas[2]
-    );
-
-console.log(
-    "\n=== RECOMENDAÇÃO DE ESTUDO ===\n"
-);
-
-console.log(
-    recomendacao
+exibirHistorico(
+    candidato,
+    vagas,
+    "SKILLMATCH JS"
 );
 
 // ==============================
@@ -534,20 +590,6 @@ console.log(
 
 console.log(
     vagaJus9.exibirTecnologiaPrincipal()
-);
-
-// ==============================
-// DEMONSTRAÇÃO DE CALLBACK
-// ==============================
-
-console.log(
-    "\n=== ANÁLISE COM CALLBACK ===\n"
-);
-
-analisarVaga(
-    candidato,
-    vagaJus9,
-    exibirResultadoVaga
 );
 
 // ==============================
@@ -568,6 +610,7 @@ function carregarVagas() {
 
                     // Altere para false
                     // para testar o erro
+
                     const carregamentoComSucesso =
                         true;
 
@@ -623,33 +666,385 @@ async function iniciarCarregamento() {
     }
 }
 
-iniciarCarregamento();
-
 // ==============================
 // ETAPA 5 - PROMPT DO USUÁRIO
 // ==============================
-//
-// A Etapa 5 será desenvolvida somente
-// a partir deste ponto.
-//
-// Planejamento:
-//
-// 1 - Importar prompt-sync
-//
-// const prompt = require("prompt-sync")();
-//
-// 2 - Criar menu:
-//
-// 1 - Inserir candidato
-// 2 - Inserir vaga
-// 0 - Continuar sem inserir dados
-//
-// 3 - Criar fluxo para novo candidato
-//
-// 4 - Criar fluxo para nova vaga
-//
-// 5 - Validar entradas
-//
-// 6 - Integrar novos dados às análises
-//
+
 // ==============================
+// IMPORTAÇÃO DO PROMPT-SYNC
+// ==============================
+
+const prompt =
+    require("prompt-sync")();
+
+// ==============================
+// FUNÇÃO PARA CONVERTER NÚMEROS
+// ==============================
+
+function solicitarNumero(mensagem) {
+
+    let numero;
+
+    do {
+
+        const resposta =
+            prompt(mensagem);
+
+        numero =
+            Number(resposta);
+
+        if (Number.isNaN(numero)) {
+
+            console.log(
+                "Digite um valor numérico válido."
+            );
+        }
+
+    } while (
+        Number.isNaN(numero)
+    );
+
+    return numero;
+}
+
+// ==============================
+// CADASTRO DE CANDIDATO
+// ==============================
+
+function cadastrarCandidato() {
+
+    console.log(
+        "\n=== CADASTRO DE CANDIDATO ===\n"
+    );
+
+    const nome =
+        prompt(
+            "Nome do candidato: "
+        );
+
+    const areaInteresse =
+        prompt(
+            "Área de interesse: "
+        );
+
+    const habilidadesDigitadas =
+        prompt(
+            "Habilidades separadas por vírgula: "
+        );
+
+    const tempoExperienciaMeses =
+        solicitarNumero(
+            "Tempo de experiência profissional em meses: "
+        );
+
+    const habilidades =
+        habilidadesDigitadas
+            .split(",")
+            .map(
+                (habilidade) =>
+                    habilidade.trim()
+            )
+            .filter(
+                (habilidade) =>
+                    habilidade !== ""
+            );
+
+    const novoCandidato = {
+
+        nome:
+            nome,
+
+        areaInteresse:
+            areaInteresse,
+
+        habilidades:
+            habilidades,
+
+        tempoExperienciaMeses:
+            tempoExperienciaMeses
+    };
+
+    console.log(
+        "\nCandidato cadastrado com sucesso."
+    );
+
+    return novoCandidato;
+}
+
+// ==============================
+// CADASTRO DE VAGA
+// ==============================
+
+function cadastrarVaga() {
+
+    console.log(
+        "\n=== CADASTRO DE VAGA ===\n"
+    );
+
+    const tituloVaga =
+        prompt(
+            "Título da vaga: "
+        );
+
+    const empresa =
+        prompt(
+            "Empresa: "
+        );
+
+    const modalidade =
+        prompt(
+            "Modalidade: "
+        );
+
+    const localizacao =
+        prompt(
+            "Localização: "
+        );
+
+    const salario =
+        solicitarNumero(
+            "Salário: "
+        );
+
+    let requisitosValidos =
+        false;
+
+    let requisitos = [];
+
+    while (
+        !requisitosValidos
+    ) {
+
+        const habilidadesDigitadas =
+            prompt(
+                "Habilidades exigidas separadas por vírgula: "
+            );
+
+        const pesosDigitados =
+            prompt(
+                "Pesos correspondentes separados por vírgula: "
+            );
+
+        const habilidades =
+            habilidadesDigitadas
+                .split(",")
+                .map(
+                    (habilidade) =>
+                        habilidade.trim()
+                )
+                .filter(
+                    (habilidade) =>
+                        habilidade !== ""
+                );
+
+        const pesos =
+            pesosDigitados
+                .split(",")
+                .map(
+                    (peso) =>
+                        Number(
+                            peso.trim()
+                        )
+                );
+
+        const quantidadeCompativel =
+            habilidades.length ===
+            pesos.length;
+
+        const pesosNumericos =
+            pesos.every(
+                (peso) =>
+                    !Number.isNaN(peso)
+            );
+
+        const somaPesos =
+            pesos.reduce(
+                (total, peso) =>
+                    total + peso,
+                0
+            );
+
+        if (
+            !quantidadeCompativel
+        ) {
+
+            console.log(
+                "\nA quantidade de habilidades deve ser igual à quantidade de pesos."
+            );
+
+        } else if (
+            !pesosNumericos
+        ) {
+
+            console.log(
+                "\nTodos os pesos devem ser números."
+            );
+
+        } else if (
+            somaPesos !== 100
+        ) {
+
+            console.log(
+                `\nOs pesos devem somar 100. Soma atual: ${somaPesos}.`
+            );
+
+        } else {
+
+            requisitos =
+                habilidades.map(
+                    (
+                        habilidade,
+                        indice
+                    ) => {
+
+                        return {
+                            habilidade:
+                                habilidade,
+
+                            peso:
+                                pesos[indice]
+                        };
+                    }
+                );
+
+            requisitosValidos =
+                true;
+        }
+    }
+
+    const novaVaga =
+        new Vaga(
+            tituloVaga,
+            empresa,
+            modalidade,
+            localizacao,
+            requisitos,
+            salario
+        );
+
+    vagas.push(
+        novaVaga
+    );
+
+    console.log(
+        "\nVaga cadastrada com sucesso."
+    );
+
+    return novaVaga;
+}
+
+// ==============================
+// MENU INICIAL
+// ==============================
+
+console.log(
+    "\n=============================="
+);
+
+console.log(
+    "     PROMPT DO USUÁRIO"
+);
+
+console.log(
+    "==============================\n"
+);
+
+console.log(
+    "O que você deseja fazer?\n"
+);
+
+console.log(
+    "1 - Inserir candidato"
+);
+
+console.log(
+    "2 - Inserir vaga"
+);
+
+console.log(
+    "0 - Continuar sem inserir dados"
+);
+
+const opcaoUsuario =
+    prompt(
+        "\nEscolha uma opção: "
+    );
+
+// ==============================
+// ESCOLHA DA OPERAÇÃO
+// ==============================
+
+if (
+    opcaoUsuario === "1"
+) {
+
+    const novoCandidato =
+        cadastrarCandidato();
+
+    console.log(
+        "\nCadastro concluído."
+    );
+
+    console.log(
+        "A seguir será exibido o histórico atualizado com o novo candidato."
+    );
+
+    exibirHistorico(
+        novoCandidato,
+        vagas,
+        "HISTÓRICO ATUALIZADO"
+    );
+
+} else if (
+    opcaoUsuario === "2"
+) {
+
+    const novaVaga =
+        cadastrarVaga();
+
+    console.log(
+        "\nCadastro concluído."
+    );
+
+    console.log(
+        `Nova vaga: ${novaVaga.tituloVaga} - ${novaVaga.empresa}`
+    );
+
+    console.log(
+        "A seguir será exibido o histórico atualizado com a nova vaga."
+    );
+
+    exibirHistorico(
+        candidato,
+        vagas,
+        "HISTÓRICO ATUALIZADO"
+    );
+
+} else if (
+    opcaoUsuario === "0"
+) {
+
+    console.log(
+        "\nNenhum novo cadastro foi realizado."
+    );
+
+    console.log(
+        "O histórico inicial permanece válido."
+    );
+
+} else {
+
+    console.log(
+        "\nOpção inválida."
+    );
+
+    console.log(
+        "Nenhum dado foi alterado."
+    );
+}
+
+// ==============================
+// EXECUÇÃO ASSÍNCRONA
+// ==============================
+
+iniciarCarregamento();
