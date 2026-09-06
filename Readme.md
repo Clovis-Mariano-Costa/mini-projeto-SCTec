@@ -8,13 +8,15 @@ Mini-Projeto Avaliativo do Módulo 01 do curso de **Programação Front-End Reac
 
 O **SkillMatch JS** é um simulador de compatibilidade entre o perfil de uma pessoa candidata e vagas de tecnologia, com foco principal em oportunidades para desenvolvimento Front-End Júnior.
 
-O sistema compara as habilidades de uma pessoa candidata com os requisitos exigidos pelas vagas e apresenta:
+O sistema compara as habilidades da pessoa candidata com os requisitos exigidos pelas vagas e apresenta:
 
 - habilidades consideradas na análise;
-- habilidades faltantes;
-- percentual de compatibilidade;
+- habilidades faltantes em cada vaga;
+- percentual de compatibilidade técnica;
 - classificação da compatibilidade;
-- vaga com maior compatibilidade;
+- bônus de experiência profissional;
+- pontuação final;
+- vaga com maior pontuação;
 - recomendação de estudo;
 - histórico da análise;
 - cadastro interativo de novo candidato;
@@ -31,9 +33,13 @@ Além da funcionalidade principal, o projeto demonstra diversos conceitos de Jav
 - arrow functions;
 - estruturas condicionais;
 - estruturas de repetição;
+- operadores lógicos e matemáticos;
 - métodos de array;
 - Programação Orientada a Objetos;
+- classes;
+- construtores;
 - herança;
+- uso de `this`;
 - callbacks;
 - closures;
 - Promises;
@@ -43,26 +49,29 @@ Além da funcionalidade principal, o projeto demonstra diversos conceitos de Jav
 
 ---
 
-## Status do projeto
+# Status do projeto
 
 **Sistema concluído — vídeo de apresentação pendente.**
 
 As funcionalidades previstas foram implementadas, integradas e testadas.
 
-Neste momento, falta apenas adicionar o link do vídeo de apresentação.
+Neste momento, falta apenas gravar o vídeo de apresentação, disponibilizá-lo por link e adicionar esse link ao README e à entrega no AVA.
 
 ---
 
-## Funcionalidades principais
+# Funcionalidades principais
 
 O SkillMatch JS permite:
 
 - utilizar um candidato padrão;
 - trabalhar com vagas previamente cadastradas;
-- calcular compatibilidade ponderada entre candidato e vaga;
+- calcular a compatibilidade técnica ponderada entre candidato e vaga;
 - classificar o nível de compatibilidade;
-- identificar habilidades faltantes;
-- encontrar a vaga mais compatível;
+- identificar e exibir as habilidades faltantes de cada vaga;
+- considerar a experiência profissional como bônus;
+- calcular uma pontuação final;
+- permitir que a pontuação final ultrapasse 100 pontos;
+- encontrar a vaga com maior pontuação;
 - recomendar uma habilidade para estudo;
 - listar as vagas cadastradas;
 - utilizar classes e herança;
@@ -83,12 +92,35 @@ O SkillMatch JS permite:
 
 - JavaScript
 - Node.js
-- prompt-sync
+- npm
+- `prompt-sync`
 - Visual Studio Code
 - Git
 - GitHub
 - GitHub Desktop
 - Trello
+
+---
+
+# Extensões utilizadas ou recomendadas no VS Code
+
+Durante o desenvolvimento, o Visual Studio Code foi utilizado como editor principal.
+
+Uma extensão útil para manter a organização visual do código é:
+
+```text
+Prettier - Code formatter
+```
+
+O Prettier auxilia na formatação e padronização do código.
+
+Entretanto, nenhuma extensão específica do VS Code é obrigatória para executar o projeto.
+
+A execução do programa é realizada com Node.js diretamente pelo terminal:
+
+```bash
+node skillmatch.js
+```
 
 ---
 
@@ -138,6 +170,14 @@ Instale as dependências com:
 npm install
 ```
 
+O comando utiliza as informações presentes no:
+
+```text
+package.json
+```
+
+e instala automaticamente as dependências necessárias.
+
 Caso seja necessário instalar especificamente o `prompt-sync`, utilize:
 
 ```bash
@@ -164,7 +204,7 @@ O uso do terminal é importante porque o `prompt-sync` precisa receber entradas 
 
 O **Console de Depuração do VS Code não é adequado para a interação com o `prompt-sync`**.
 
-A execução recomendada é, portanto:
+Portanto, a execução recomendada é:
 
 ```bash
 node skillmatch.js
@@ -183,13 +223,16 @@ Esse histórico inclui:
 - experiência profissional formal;
 - habilidades;
 - vagas cadastradas;
-- resultado de compatibilidade;
+- compatibilidade técnica;
 - classificação;
+- habilidades faltantes de cada vaga;
+- bônus de experiência;
+- pontuação final;
 - melhor vaga;
 - recomendação de estudo;
 - demonstração de callback.
 
-Depois do histórico inicial, o sistema apresenta a etapa de interação com o usuário.
+Depois do histórico inicial, o sistema apresenta o menu de interação com o usuário.
 
 ---
 
@@ -250,7 +293,7 @@ Exemplo:
 Nome do candidato: Maria da Silva
 Área de interesse: Desenvolvimento Front-End
 Habilidades separadas por vírgula: HTML, CSS, React
-Tempo de experiência profissional em meses: 6
+Tempo de experiência profissional em meses: 14
 ```
 
 As habilidades informadas são transformadas em um array.
@@ -271,6 +314,8 @@ torna-se:
 ]
 ```
 
+O tempo de experiência é convertido para número e utilizado no cálculo do bônus profissional.
+
 Depois do cadastro, o sistema gera um:
 
 ```text
@@ -279,7 +324,15 @@ HISTÓRICO ATUALIZADO
 
 As mesmas vagas passam a ser analisadas utilizando o novo candidato.
 
-Assim, percentuais, classificações, melhor vaga e recomendação podem mudar.
+Assim, podem mudar:
+
+- compatibilidade técnica;
+- classificação;
+- habilidades faltantes;
+- bônus de experiência;
+- pontuação final;
+- melhor vaga;
+- recomendação.
 
 ---
 
@@ -430,6 +483,8 @@ tempoExperienciaMeses
 
 representa experiência profissional formal.
 
+Esse valor também é utilizado para calcular o bônus de experiência profissional.
+
 ---
 
 # Vagas
@@ -446,7 +501,7 @@ Cada vaga possui informações como:
 - peso dos requisitos;
 - salário.
 
-Entre as vagas utilizadas no projeto também existe uma vaga da:
+Entre as vagas utilizadas no projeto também existe uma vaga fictícia da:
 
 ```text
 Jus 9 Tecnologia Jurídica
@@ -474,7 +529,7 @@ JavaScript = 50
 
 ---
 
-# Regra de compatibilidade
+# Regra de compatibilidade técnica
 
 O SkillMatch utiliza uma regra de compatibilidade ponderada.
 
@@ -496,10 +551,10 @@ A soma dos pesos corresponde a:
 100
 ```
 
-A fórmula geral utilizada é:
+A fórmula utilizada é:
 
 ```text
-compatibilidade =
+compatibilidade técnica =
 (pontos obtidos / peso total da vaga) × 100
 ```
 
@@ -520,16 +575,126 @@ no exemplo acima, recebe:
 Resultado:
 
 ```text
-60%
+Compatibilidade técnica: 60%
 ```
+
+A compatibilidade técnica permanece sempre entre:
+
+```text
+0% e 100%
+```
+
+---
+
+# Experiência profissional como bônus
+
+Além da compatibilidade técnica, o projeto considera a experiência profissional da pessoa candidata.
+
+A experiência não altera o percentual técnico.
+
+Ela entra separadamente como um:
+
+```text
+bônus de experiência
+```
+
+O critério definido para o projeto é:
+
+| Experiência profissional | Bônus |
+|---|---:|
+| 0 meses | +0 pontos |
+| 1 a 5 meses | +5 pontos |
+| 6 a 11 meses | +10 pontos |
+| 12 a 23 meses | +15 pontos |
+| 24 a 47 meses | +21 pontos |
+| 48 meses ou mais | +27 pontos |
+
+A função responsável por essa regra é:
+
+```js
+calcularBonusExperiencia()
+```
+
+A experiência foi tratada como bônus porque o projeto considera que experiência profissional pode representar um diferencial além do atendimento estritamente técnico aos requisitos da vaga.
+
+---
+
+# Compatibilidade técnica, bônus e pontuação final
+
+O projeto separa claramente três conceitos.
+
+## Compatibilidade técnica
+
+Representa o atendimento aos requisitos técnicos da vaga.
+
+Faixa:
+
+```text
+0% a 100%
+```
+
+---
+
+## Bônus de experiência
+
+Representa o diferencial decorrente do tempo de experiência profissional.
+
+Faixa:
+
+```text
+0 a +27 pontos
+```
+
+---
+
+## Pontuação final
+
+É calculada por:
+
+```text
+pontuação final =
+compatibilidade técnica
++
+bônus de experiência
+```
+
+Exemplo:
+
+```text
+Compatibilidade técnica: 60%
+Bônus de experiência: +15 pontos
+
+Pontuação final: 75 pontos
+```
+
+Outro exemplo:
+
+```text
+Compatibilidade técnica: 100%
+Bônus de experiência: +27 pontos
+
+Pontuação final: 127 pontos
+```
+
+A pontuação final pode ultrapassar 100 pontos.
+
+Isso não significa que a compatibilidade técnica ultrapassou 100%.
+
+Significa que o candidato atingiu 100% dos requisitos técnicos e ainda recebeu pontos adicionais em razão da experiência profissional.
 
 ---
 
 # Classificação da compatibilidade
 
+A classificação continua sendo realizada exclusivamente sobre a:
+
+```text
+compatibilidade técnica
+```
+
 O sistema utiliza as seguintes faixas:
 
-| Percentual | Classificação |
+| Percentual técnico | Classificação |
 |---|---|
 | 80% a 100% | Alta compatibilidade |
 | 50% a 79% | Média compatibilidade |
@@ -543,7 +708,7 @@ else if
 else
 ```
 
-Também foram preservados no código alguns testes manuais comentados da função de classificação.
+O bônus de experiência não altera as faixas Alta, Média e Baixa.
 
 ---
 
@@ -589,11 +754,27 @@ React
 TypeScript
 ```
 
+Na versão final, o relatório exibe as habilidades faltantes **para cada vaga analisada**.
+
+Exemplo:
+
+```text
+Empresa: CodeWave Sistemas Ltda.
+Compatibilidade técnica: 60%
+Habilidades faltantes: React, TypeScript
+```
+
+Quando nenhuma habilidade está faltando, o sistema informa:
+
+```text
+Habilidades faltantes: nenhuma
+```
+
 ---
 
 # Melhor vaga
 
-Depois de calcular a compatibilidade de todas as vagas, o sistema identifica aquela com maior percentual.
+Depois de calcular os resultados das vagas, o sistema identifica aquela com maior pontuação.
 
 Para isso é utilizado:
 
@@ -601,15 +782,25 @@ Para isso é utilizado:
 reduce()
 ```
 
-A comparação principal utiliza:
+A comparação utiliza a:
 
-```js
-if (compatibilidadeAtual > compatibilidadeMelhor)
+```text
+pontuação final
 ```
 
-Em caso de empate, permanece a primeira vaga encontrada com a maior porcentagem.
+que corresponde a:
 
-Isso acontece porque foi utilizado:
+```text
+compatibilidade técnica + bônus de experiência
+```
+
+Para um mesmo candidato, o bônus de experiência é igual em todas as vagas.
+
+Por isso, a compatibilidade técnica continua tendo papel decisivo na comparação entre as vagas.
+
+Em caso de empate, permanece a primeira vaga encontrada com a maior pontuação.
+
+A comparação utiliza:
 
 ```js
 >
@@ -633,7 +824,7 @@ O critério escolhido foi:
 priorizar a habilidade faltante com maior peso
 ```
 
-Isso significa que o sistema recomenda estudar primeiro a habilidade que pode gerar o maior ganho imediato de compatibilidade com a vaga analisada.
+Isso significa que o sistema recomenda estudar primeiro a habilidade que pode gerar o maior ganho imediato de compatibilidade técnica com a vaga analisada.
 
 Exemplo:
 
@@ -648,6 +839,34 @@ A recomendação será:
 Priorize o estudo de React.
 ```
 
+No fluxo de demonstração do projeto, uma vaga que contém tecnologias adicionais, como React e TypeScript, é utilizada como referência para permitir a demonstração prática dessa recomendação.
+
+---
+
+# Relatório completo no console
+
+O relatório final apresentado no console contém:
+
+```text
+Candidato
+Área de interesse
+Experiência profissional
+Habilidades
+Vagas cadastradas
+Compatibilidade técnica
+Classificação
+Bônus de experiência
+Pontuação final
+Habilidades faltantes por vaga
+Melhor vaga
+Recomendação de estudo
+Análise com callback
+Demonstração de classe e herança
+Carregamento assíncrono
+```
+
+Dessa forma, o relatório reúne as principais informações analisadas pelo sistema.
+
 ---
 
 # Métodos de array utilizados
@@ -660,7 +879,8 @@ Utilizado para:
 
 - gerar resultados de compatibilidade;
 - converter valores digitados;
-- organizar dados de novas vagas.
+- organizar dados de novas vagas;
+- gerar a lista de nomes das habilidades faltantes.
 
 ---
 
@@ -687,7 +907,7 @@ Utilizado para:
 
 ## forEach()
 
-Utilizado para apresentar resultados de compatibilidade.
+Utilizado para apresentar os resultados das vagas no console.
 
 ---
 
@@ -705,7 +925,7 @@ Utilizado para verificar se determinada habilidade está presente na lista de ha
 
 # Estruturas de repetição
 
-O projeto utiliza estrutura tradicional:
+O projeto utiliza:
 
 ```js
 for
@@ -767,16 +987,104 @@ O projeto optou por priorizar `const` e `let` devido ao controle mais claro de e
 
 ---
 
+# Tipos de dados
+
+O projeto utiliza diferentes tipos de dados estudados durante o módulo.
+
+## Strings
+
+Exemplos:
+
+```js
+"JavaScript"
+"Desenvolvedor Front-End Júnior"
+"Alta compatibilidade"
+```
+
+## Números
+
+Exemplos:
+
+```js
+3500
+50
+27
+```
+
+## Booleanos
+
+Exemplo:
+
+```js
+const carregamentoComSucesso = true;
+```
+
+## Arrays
+
+Exemplos:
+
+```js
+habilidades
+vagas
+requisitos
+```
+
+## Objetos
+
+Exemplos:
+
+```js
+candidato
+vaga
+requisito
+```
+
+---
+
+# Operadores lógicos e matemáticos
+
+O projeto utiliza operadores matemáticos para:
+
+- somar pesos;
+- calcular percentuais;
+- calcular bônus;
+- calcular pontuação final.
+
+Exemplos:
+
+```js
++
+/
+*
+```
+
+Também utiliza operadores de comparação e operadores lógicos.
+
+Exemplos:
+
+```js
+>
+>=
+===
+!
+```
+
+---
+
 # Funções
 
-O projeto utiliza funções tradicionais, por exemplo:
+O projeto utiliza funções tradicionais.
+
+Exemplo:
 
 ```js
 function calcularCompatibilidade() {
 }
 ```
 
-e também arrow functions:
+Também utiliza arrow functions.
+
+Exemplo:
 
 ```js
 (vaga) => {
@@ -789,11 +1097,11 @@ As duas formas aparecem em situações diferentes ao longo do código.
 
 # Objetos
 
-O candidato é representado como objeto.
+O candidato é representado como um objeto.
 
 As vagas também utilizam objetos.
 
-Exemplo:
+Exemplo de requisito:
 
 ```js
 {
@@ -961,6 +1269,13 @@ exibirResultadoVaga
 
 é a função callback.
 
+Na versão final, o callback também apresenta:
+
+- compatibilidade técnica;
+- classificação;
+- bônus de experiência;
+- pontuação final.
+
 ---
 
 # Closure
@@ -1082,15 +1397,79 @@ catch
 
 para tratar tanto o carregamento bem-sucedido quanto uma possível falha.
 
+Para testar manualmente o erro, o valor:
+
+```js
+const carregamentoComSucesso = true;
+```
+
+pode ser temporariamente alterado para:
+
+```js
+const carregamentoComSucesso = false;
+```
+
+---
+
+# Como a internet funciona
+
+A internet é uma rede formada por diversos computadores e dispositivos conectados.
+
+Quando uma pessoa utiliza um navegador ou aplicativo para acessar um serviço, normalmente existe uma comunicação entre:
+
+```text
+cliente
+```
+
+e:
+
+```text
+servidor
+```
+
+O cliente faz uma solicitação.
+
+Por exemplo:
+
+```text
+"quero receber a lista de vagas"
+```
+
+Essa solicitação percorre a rede até chegar ao servidor responsável.
+
+O servidor recebe o pedido, processa a informação e envia uma resposta.
+
+De forma simplificada:
+
+```text
+Cliente
+   ↓
+faz uma requisição
+   ↓
+Internet / rede
+   ↓
+Servidor
+   ↓
+processa a requisição
+   ↓
+envia uma resposta
+   ↓
+Internet / rede
+   ↓
+Cliente recebe os dados
+```
+
+Na internet real, essa comunicação costuma utilizar protocolos como HTTP ou HTTPS.
+
+O SkillMatch não realiza uma chamada real pela internet, mas simula esse comportamento para demonstrar o conceito estudado.
+
 ---
 
 # Arquitetura cliente-servidor
 
-O projeto não utiliza um servidor real nem uma API externa.
+A arquitetura cliente-servidor separa quem solicita um serviço de quem fornece esse serviço.
 
-A comunicação é simulada com JavaScript.
-
-O fluxo conceitual é:
+No SkillMatch:
 
 ```text
 Cliente
@@ -1108,7 +1487,35 @@ retorno das vagas
 Cliente
 ```
 
-O atraso com `setTimeout()` representa o tempo que poderia existir em uma comunicação real.
+O projeto não utiliza um servidor real nem uma API externa.
+
+A comunicação é simulada com JavaScript.
+
+O:
+
+```js
+setTimeout()
+```
+
+representa o tempo de espera que poderia existir em uma comunicação real.
+
+A:
+
+```js
+Promise
+```
+
+representa uma operação que ainda não terminou.
+
+O:
+
+```js
+await
+```
+
+permite aguardar a conclusão dessa operação.
+
+Dessa forma, o projeto demonstra de forma simplificada como uma aplicação pode esperar dados vindos de um servidor.
 
 ---
 
@@ -1145,6 +1552,8 @@ Se escolhe:
 ```text
 HISTÓRICO ATUALIZADO
 ```
+
+A experiência profissional informada também passa a participar da pontuação por meio do bônus.
 
 Se escolhe:
 
@@ -1201,7 +1610,8 @@ Esses arquivos servem como registro visual:
 - da evolução do projeto;
 - da movimentação dos cartões;
 - das etapas concluídas;
-- do acompanhamento do desenvolvimento.
+- do acompanhamento do desenvolvimento;
+- da revisão final realizada na `main`.
 
 Assim, além do quadro Trello público, o repositório mantém evidências visuais do processo de organização.
 
@@ -1211,7 +1621,7 @@ Assim, além do quadro Trello público, o repositório mantém evidências visua
 
 O projeto foi organizado utilizando Trello.
 
-As colunas principais foram:
+As colunas obrigatórias utilizadas foram:
 
 ```text
 Backlog
@@ -1220,7 +1630,16 @@ Em Andamento
 Concluído
 ```
 
-Também foram criadas áreas relacionadas às diferentes etapas do projeto.
+Além delas, foram criadas áreas específicas para organizar as frentes de desenvolvimento.
+
+Entre elas:
+
+```text
+3. classes-e-heranca
+4. promise-e-async
+5. prompt-do-usuario
+Atualização final na "main"
+```
 
 O Kanban foi atualizado durante o desenvolvimento, acompanhando o trabalho efetivamente realizado.
 
@@ -1229,6 +1648,8 @@ O Kanban foi atualizado durante o desenvolvimento, acompanhando o trabalho efeti
 # Etapas do projeto
 
 O desenvolvimento foi dividido em etapas.
+
+---
 
 ## Etapa 1 — Perfil e vagas
 
@@ -1330,6 +1751,24 @@ ETAPA-5-PROMPT-DO-USUARIO.md
 
 ---
 
+# Atualização final na main
+
+Após a integração das etapas, foi realizada uma revisão do projeto utilizando o checklist final de entrega.
+
+Nessa revisão foram acrescentados:
+
+- bônus de experiência profissional;
+- separação entre compatibilidade técnica e pontuação final;
+- exibição das habilidades faltantes em cada vaga;
+- atualização do relatório completo;
+- explicação sobre funcionamento da internet;
+- registro das extensões utilizadas ou recomendadas;
+- atualização deste README.
+
+Essa revisão final foi realizada diretamente sobre a versão consolidada do projeto.
+
+---
+
 # Documentação da Develop
 
 Também foi criado:
@@ -1356,6 +1795,8 @@ Develop
 main
 ```
 
+O desenvolvimento das funcionalidades ocorreu em branches separadas antes da integração na branch principal.
+
 ---
 
 # Branches utilizadas
@@ -1379,6 +1820,8 @@ main
 Branch principal.
 
 Recebe a versão consolidada e revisada do projeto.
+
+A revisão final do checklist também foi realizada na `main`.
 
 ---
 
@@ -1446,6 +1889,10 @@ Develop
 Develop
    ↓
 main
+
+Revisão final
+   ↓
+main
 ```
 
 ---
@@ -1482,6 +1929,8 @@ Organiza saída final e documenta a Develop
 Implementa interação com prompt-sync e histórico atualizado
 ```
 
+A atualização final também gera um registro específico relacionado à revisão da `main`.
+
 ---
 
 # Principais decisões de projeto
@@ -1502,15 +1951,51 @@ Para novas vagas cadastradas pelo usuário, os pesos devem totalizar:
 100
 ```
 
-Isso facilita a interpretação do percentual.
+Isso facilita a interpretação do percentual técnico.
+
+---
+
+## Experiência como bônus
+
+A experiência profissional não altera o percentual técnico.
+
+Ela acrescenta entre:
+
+```text
+0 e 27 pontos
+```
+
+à pontuação final.
+
+Essa decisão permite valorizar a experiência profissional sem alterar a escala técnica exigida de 0 a 100%.
 
 ---
 
 ## Melhor vaga
 
-É escolhida a vaga com maior percentual de compatibilidade.
+É escolhida a vaga com maior pontuação final.
+
+A pontuação final corresponde a:
+
+```text
+compatibilidade técnica + bônus de experiência
+```
 
 Em caso de empate, permanece a primeira vaga encontrada.
+
+---
+
+## Classificação
+
+As classificações:
+
+```text
+Alta
+Média
+Baixa
+```
+
+continuam considerando apenas o percentual técnico.
 
 ---
 
@@ -1577,6 +2062,7 @@ A participação da Inteligência Artificial ocorreu principalmente em:
 - explicação e revisão de `map`, `filter`, `reduce`, `every` e `forEach`;
 - discussão da regra de compatibilidade;
 - apoio na estruturação da compatibilidade ponderada;
+- discussão da inclusão da experiência profissional como bônus;
 - revisão de estruturas condicionais;
 - revisão de estruturas de repetição;
 - apoio na Programação Orientada a Objetos;
@@ -1601,6 +2087,8 @@ A participação da Inteligência Artificial ocorreu principalmente em:
 - sugestões de mensagens de commit;
 - documentação das etapas;
 - revisão da branch `Develop`;
+- conferência do checklist final;
+- revisão da versão consolidada na `main`;
 - consolidação deste README;
 - preparação para a apresentação final.
 
@@ -1619,9 +2107,9 @@ A utilização da Inteligência Artificial ocorreu como ferramenta de apoio ao e
 
 Atuei neste projeto como assistente de apoio técnico, educacional e documental.
 
-Minha participação envolveu explicar conceitos, discutir alternativas, revisar trechos de código, apoiar a organização das etapas e auxiliar na documentação.
+Minha participação envolveu explicar conceitos, discutir alternativas, revisar trechos de código, apoiar a organização das etapas, auxiliar na conferência dos requisitos e colaborar na documentação.
 
-As decisões finais, testes, execução do código e condução do projeto foram realizados pelo autor.
+As decisões finais, os testes, a execução do código, a validação das funcionalidades e a condução do projeto foram realizados pelo autor.
 
 **Assinado:**  
 **ChatGPT — GPT-5.6 Sol**  
@@ -1646,7 +2134,9 @@ Embora o sistema esteja concluído para os objetivos deste mini-projeto, algumas
 - filtros;
 - ordenação por compatibilidade;
 - persistência do histórico;
-- aplicação em React.
+- aplicação em React;
+- criação de regras diferentes de experiência para diferentes vagas;
+- diferenciação entre experiência profissional geral e experiência específica por tecnologia.
 
 Essas possibilidades não fazem parte do escopo atual.
 
@@ -1665,7 +2155,10 @@ O vídeo de apresentação demonstrará:
 - cadastro de candidato;
 - cadastro de vaga;
 - atualização do histórico;
-- cálculo de compatibilidade;
+- cálculo de compatibilidade técnica;
+- bônus de experiência;
+- pontuação final;
+- habilidades faltantes;
 - melhor vaga;
 - recomendação de estudo;
 - classes e herança;
@@ -1676,7 +2169,17 @@ O vídeo de apresentação demonstrará:
 - estrutura do repositório;
 - pasta `Imagens`;
 - uso de Inteligência Artificial;
-- possíveis melhorias futuras.
+- melhorias futuras possíveis.
+
+Também será explicado no vídeo:
+
+- como executar o sistema;
+- como as tarefas foram organizadas;
+- quais branches foram utilizadas;
+- o objetivo de cada branch;
+- o que poderia ser melhorado futuramente;
+- onde foi utilizada Inteligência Artificial;
+- o que foi revisado e validado pelo autor.
 
 ---
 
@@ -1698,13 +2201,18 @@ https://github.com/Clovis-Mariano-Costa/mini-projeto-ifsc
 
 https://clovis-mariano-costa.github.io/mini-projeto-ifsc/
 
-> Observação: a execução interativa completa do sistema utiliza Node.js e `prompt-sync`, portanto deve ser realizada pelo terminal com `node skillmatch.js`.
+> **Observação:** a execução interativa completa do sistema utiliza Node.js e `prompt-sync`. Portanto, o sistema deve ser executado localmente pelo terminal com `node skillmatch.js`. O GitHub Pages não executa o fluxo interativo em Node.js.
 
 ---
 
 ## Kanban no Trello
 
 https://trello.com/b/3ZZNHAub/mini-projeto-ifsc
+
+
+## Link para arquivos de apoio
+https://drive.google.com/drive/folders/1xtAXf1iaC8RSCRCvzdZehlKCeWOY0iF7?usp=sharing
+
 
 ---
 
@@ -1722,20 +2230,51 @@ Programação Front-End React — IFSC
 **ChatGPT — GPT-5.6 Sol**  
 **OpenAI**
 
-Apoio durante o estudo, desenvolvimento, revisão, documentação e organização do SkillMatch JS.
+Apoio durante o estudo, desenvolvimento, revisão, documentação, organização e conferência final do SkillMatch JS.
 
 ---
 
-## Situação final
+# Situação final
 
 ```text
 SISTEMA CONCLUÍDO
 ```
 
+Funcionalidades concluídas:
+
+```text
+Perfil do candidato
+Vagas
+Compatibilidade técnica
+Classificação
+Habilidades faltantes
+Bônus de experiência
+Pontuação final
+Melhor vaga
+Recomendação de estudo
+Métodos de array
+Classes
+Construtor
+Herança
+this
+Callback
+Closure
+Promise
+Async/Await
+Tratamento de erros
+Prompt do usuário
+Histórico atualizado
+Kanban
+Git e GitHub
+README
+```
+
 Pendência:
 
 ```text
-Adicionar somente o link do vídeo de apresentação.
+Gravar o vídeo de apresentação
+Adicionar o link do vídeo
+Enviar os links no AVA
 ```
 
 ---
