@@ -208,9 +208,10 @@ function classificarCompatibilidade(percentual) {
     }
 }
 
-console.log(classificarCompatibilidade(100));
-console.log(classificarCompatibilidade(60));
-console.log(classificarCompatibilidade(30));
+// Testes manuais da classificação
+//console.log(classificarCompatibilidade(100));
+//console.log(classificarCompatibilidade(60));
+//console.log(classificarCompatibilidade(30));
 
 // ==============================
 // HABILIDADES FALTANTES
@@ -253,6 +254,19 @@ function encontrarMelhorVaga(candidato, vagas) {
 
     return melhorVaga;
 }
+// ==============================
+// EXIBIÇÃO DA MELHOR VAGA
+// ==============================
+
+const melhorVaga = encontrarMelhorVaga(
+    candidato,
+    vagas
+);
+
+console.log(
+    `Melhor vaga: ${melhorVaga.tituloVaga} - ${melhorVaga.empresa}`
+);
+
 
 // ==============================
 // RECOMENDAÇÃO DE ESTUDO
@@ -289,6 +303,31 @@ const recomendacao = criarRecomendacaoEstudo(
 );
 
 console.log(recomendacao);
+
+// ==============================
+// RESULTADOS DE COMPATIBILIDADE
+// ==============================
+
+const resultadosCompatibilidade = vagas.map((vaga) => {
+
+    const percentual = calcularCompatibilidade(
+        candidato,
+        vaga
+    );
+
+    const classificacao = classificarCompatibilidade(
+        percentual
+    );
+
+    return {
+        empresa: vaga.empresa,
+        tituloVaga: vaga.tituloVaga,
+        percentual: percentual,
+        classificacao: classificacao
+    };
+});
+
+console.log(resultadosCompatibilidade);
 
 // ==============================
 // CLOSURE
