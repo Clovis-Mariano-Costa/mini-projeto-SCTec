@@ -1,4 +1,4 @@
-# SkillMatch JS
+# SkillMatch JS!
 
 Mini-Projeto Avaliativo do Módulo 01 do curso de Programação Front-End React do IFSC.
 
