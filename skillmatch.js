@@ -129,3 +129,60 @@ vagas.push(vagaJus9);
 console.log(vagaJus9.exibirResumo());
 console.log(vagaJus9.exibirTecnologiaPrincipal());
 
+
+
+// ==============================
+// CLOSURE
+// ==============================
+
+function criarContadorAnalises() {
+
+    let totalAnalises = 0;
+
+    return function () {
+        totalAnalises++;
+
+        return totalAnalises;
+    };
+}
+
+const contarAnalise = criarContadorAnalises();
+
+
+// ==============================
+// CALLBACK
+// ==============================
+
+function analisarVaga(candidato, vaga, callback) {
+
+    const percentual = calcularCompatibilidade(candidato, vaga);
+
+    const classificacao = classificarCompatibilidade(percentual);
+
+    const numeroAnalise = contarAnalise();
+
+    callback(
+        vaga,
+        percentual,
+        classificacao,
+        numeroAnalise
+    );
+}
+
+function exibirResultadoVaga(
+    vaga,
+    percentual,
+    classificacao,
+    numeroAnalise
+) {
+
+    console.log(
+        `Análise ${numeroAnalise}: ${vaga.empresa} - ${percentual}% - ${classificacao}`
+    );
+}
+
+analisarVaga(
+    candidato,
+    vagaJus9,
+    exibirResultadoVaga
+);
