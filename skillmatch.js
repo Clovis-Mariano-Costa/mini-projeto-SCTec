@@ -1,29 +1,36 @@
 /*
- * SkillMatch JS
+ * ============================================================
+ * SKILLMATCH JS
  * Mini-Projeto Avaliativo - Módulo 01
  * Programação Front-End React - IFSC
+ * ============================================================
  *
  * Este arquivo contém a lógica principal do projeto SkillMatch JS.
  *
- * O objetivo do sistema é comparar as habilidades de uma pessoa candidata
- * com os requisitos de vagas fictícias para Front-End Júnior.
+ * O objetivo do sistema é comparar as habilidades de uma pessoa
+ * candidata com os requisitos de vagas fictícias.
  *
- * O programa deverá analisar:
+ * O programa analisa:
  * - habilidades que o candidato possui;
  * - requisitos exigidos pelas vagas;
  * - habilidades faltantes;
- * - percentual de compatibilidade;
+ * - percentual de compatibilidade técnica;
  * - classificação da compatibilidade;
- * - vaga com maior compatibilidade;
+ * - bônus de experiência profissional;
+ * - pontuação final;
+ * - vaga com maior pontuação;
  * - recomendação de estudo.
  *
  * Autor: Clovis Mariano da Costa
- * Status: Em desenvolvimento
+ * Status: Sistema concluído - vídeo de apresentação pendente
  */
 
-// ==============================
-// PERFIL DO CANDIDATO
-// ==============================
+
+/*
+ * ============================================================
+ * PERFIL DO CANDIDATO
+ * ============================================================
+ */
 
 const candidato = {
     nome: "Clovis Mariano da Costa",
@@ -35,12 +42,15 @@ const candidato = {
         "Git",
         "GitHub"
     ],
-tempoExperienciaMeses: 0 // experiência profissional formal
+    tempoExperienciaMeses: 0
 };
 
-// ==============================
-// VAGAS
-// ==============================
+
+/*
+ * ============================================================
+ * VAGAS
+ * ============================================================
+ */
 
 const vagas = [
     {
@@ -55,6 +65,7 @@ const vagas = [
         ],
         salario: 3500
     },
+
     {
         tituloVaga: "Analista de Sistemas",
         empresa: "Inovação Digital e Comportamental Ltda.",
@@ -68,6 +79,7 @@ const vagas = [
         ],
         salario: 4500
     },
+
     {
         tituloVaga: "Desenvolvedor Front-End Júnior",
         empresa: "CodeWave Sistemas Ltda.",
@@ -84,13 +96,19 @@ const vagas = [
     }
 ];
 
-// ==============================
-// CLASSES E HERANÇA
-// ==============================
 
-// ==============================
-// CLASSE PRINCIPAL
-// ==============================
+/*
+ * ============================================================
+ * CLASSES E HERANÇA
+ * ============================================================
+ */
+
+
+/*
+ * ============================================================
+ * CLASSE PRINCIPAL
+ * ============================================================
+ */
 
 class Vaga {
 
@@ -115,9 +133,12 @@ class Vaga {
     }
 }
 
-// ==============================
-// CLASSE FILHA
-// ==============================
+
+/*
+ * ============================================================
+ * CLASSE FILHA
+ * ============================================================
+ */
 
 class VagaFrontEnd extends Vaga {
 
@@ -148,9 +169,12 @@ class VagaFrontEnd extends Vaga {
     }
 }
 
-// ==============================
-// INSTÂNCIA DA CLASSE FILHA
-// ==============================
+
+/*
+ * ============================================================
+ * INSTÂNCIA DA CLASSE FILHA
+ * ============================================================
+ */
 
 const vagaJus9 = new VagaFrontEnd(
     "Desenvolvedor Front-End Júnior",
@@ -168,9 +192,24 @@ const vagaJus9 = new VagaFrontEnd(
 
 vagas.push(vagaJus9);
 
-// ==============================
-// CÁLCULO DE COMPATIBILIDADE
-// ==============================
+
+/*
+ * ============================================================
+ * CÁLCULO DE COMPATIBILIDADE TÉCNICA
+ * ============================================================
+ *
+ * A compatibilidade técnica permanece entre 0% e 100%.
+ *
+ * Cada habilidade possui um peso.
+ *
+ * Fórmula:
+ *
+ * compatibilidade =
+ * (pontos obtidos / peso total da vaga) * 100
+ *
+ * O bônus de experiência NÃO altera este percentual.
+ * Ele será acrescentado separadamente na pontuação final.
+ */
 
 function calcularCompatibilidade(
     candidato,
@@ -207,9 +246,111 @@ function calcularCompatibilidade(
     return percentual;
 }
 
-// ==============================
-// CLASSIFICAÇÃO DA COMPATIBILIDADE
-// ==============================
+
+/*
+ * ============================================================
+ * BÔNUS DE EXPERIÊNCIA PROFISSIONAL
+ * ============================================================
+ *
+ * A experiência profissional entra como um bônus.
+ *
+ * Ela não modifica o percentual técnico de 0 a 100%.
+ *
+ * Tabela:
+ *
+ * 0 meses             = +0 pontos
+ * 1 a 5 meses         = +5 pontos
+ * 6 a 11 meses        = +10 pontos
+ * 12 a 23 meses       = +15 pontos
+ * 24 a 47 meses       = +21 pontos
+ * 48 meses ou mais    = +27 pontos
+ */
+
+function calcularBonusExperiencia(
+    tempoExperienciaMeses
+) {
+
+    if (tempoExperienciaMeses >= 48) {
+
+        return 27;
+
+    } else if (tempoExperienciaMeses >= 24) {
+
+        return 21;
+
+    } else if (tempoExperienciaMeses >= 12) {
+
+        return 15;
+
+    } else if (tempoExperienciaMeses >= 6) {
+
+        return 10;
+
+    } else if (tempoExperienciaMeses >= 1) {
+
+        return 5;
+
+    } else {
+
+        return 0;
+    }
+}
+
+
+/*
+ * ============================================================
+ * PONTUAÇÃO FINAL
+ * ============================================================
+ *
+ * A pontuação final é:
+ *
+ * compatibilidade técnica + bônus de experiência
+ *
+ * Exemplo:
+ *
+ * Compatibilidade técnica: 100%
+ * Bônus de experiência: +27 pontos
+ * Pontuação final: 127 pontos
+ *
+ * A pontuação final pode ultrapassar 100.
+ */
+
+function calcularPontuacaoFinal(
+    candidato,
+    vaga
+) {
+
+    const compatibilidadeTecnica =
+        calcularCompatibilidade(
+            candidato,
+            vaga
+        );
+
+    const bonusExperiencia =
+        calcularBonusExperiencia(
+            candidato.tempoExperienciaMeses
+        );
+
+    const pontuacaoFinal =
+        compatibilidadeTecnica +
+        bonusExperiencia;
+
+    return pontuacaoFinal;
+}
+
+
+/*
+ * ============================================================
+ * CLASSIFICAÇÃO DA COMPATIBILIDADE
+ * ============================================================
+ *
+ * A classificação continua baseada somente na
+ * COMPATIBILIDADE TÉCNICA.
+ *
+ * 80 a 100 = Alta
+ * 50 a 79  = Média
+ * 0 a 49   = Baixa
+ */
 
 function classificarCompatibilidade(
     percentual
@@ -229,14 +370,18 @@ function classificarCompatibilidade(
     }
 }
 
+
 // Testes manuais da classificação
 // console.log(classificarCompatibilidade(100));
 // console.log(classificarCompatibilidade(60));
 // console.log(classificarCompatibilidade(30));
 
-// ==============================
-// HABILIDADES FALTANTES
-// ==============================
+
+/*
+ * ============================================================
+ * HABILIDADES FALTANTES
+ * ============================================================
+ */
 
 function identificarHabilidadesFaltantes(
     candidato,
@@ -256,9 +401,22 @@ function identificarHabilidadesFaltantes(
     return habilidadesFaltantes;
 }
 
-// ==============================
-// MELHOR VAGA
-// ==============================
+
+/*
+ * ============================================================
+ * MELHOR VAGA
+ * ============================================================
+ *
+ * A melhor vaga passa a considerar a pontuação final:
+ *
+ * compatibilidade técnica + bônus de experiência.
+ *
+ * Para um mesmo candidato, o bônus de experiência é igual
+ * em todas as vagas, mas ele agora faz parte formalmente
+ * da pontuação utilizada pelo sistema.
+ *
+ * Em caso de empate, permanece a primeira vaga encontrada.
+ */
 
 function encontrarMelhorVaga(
     candidato,
@@ -268,21 +426,21 @@ function encontrarMelhorVaga(
     const melhorVaga = vagas.reduce(
         (melhor, vagaAtual) => {
 
-            const compatibilidadeAtual =
-                calcularCompatibilidade(
+            const pontuacaoAtual =
+                calcularPontuacaoFinal(
                     candidato,
                     vagaAtual
                 );
 
-            const compatibilidadeMelhor =
-                calcularCompatibilidade(
+            const pontuacaoMelhor =
+                calcularPontuacaoFinal(
                     candidato,
                     melhor
                 );
 
             if (
-                compatibilidadeAtual >
-                compatibilidadeMelhor
+                pontuacaoAtual >
+                pontuacaoMelhor
             ) {
                 return vagaAtual;
             }
@@ -294,9 +452,16 @@ function encontrarMelhorVaga(
     return melhorVaga;
 }
 
-// ==============================
-// RECOMENDAÇÃO DE ESTUDO
-// ==============================
+
+/*
+ * ============================================================
+ * RECOMENDAÇÃO DE ESTUDO
+ * ============================================================
+ *
+ * O critério permanece:
+ *
+ * recomendar a habilidade faltante de maior peso.
+ */
 
 function criarRecomendacaoEstudo(
     candidato,
@@ -336,9 +501,20 @@ function criarRecomendacaoEstudo(
     return `Priorize o estudo de ${habilidadePrioritaria.habilidade}, pois essa habilidade possui peso ${habilidadePrioritaria.peso} nesta vaga.`;
 }
 
-// ==============================
-// RESULTADOS DE COMPATIBILIDADE
-// ==============================
+
+/*
+ * ============================================================
+ * RESULTADOS DE COMPATIBILIDADE
+ * ============================================================
+ *
+ * Cada resultado agora contém:
+ *
+ * - compatibilidade técnica;
+ * - classificação;
+ * - habilidades faltantes;
+ * - bônus de experiência;
+ * - pontuação final.
+ */
 
 function gerarResultadosCompatibilidade(
     candidato,
@@ -359,22 +535,42 @@ function gerarResultadosCompatibilidade(
                     percentual
                 );
 
+            const habilidadesFaltantes =
+                identificarHabilidadesFaltantes(
+                    candidato,
+                    vaga
+                );
+
+            const bonusExperiencia =
+                calcularBonusExperiencia(
+                    candidato.tempoExperienciaMeses
+                );
+
+            const pontuacaoFinal =
+                calcularPontuacaoFinal(
+                    candidato,
+                    vaga
+                );
+
             return {
                 empresa: vaga.empresa,
-                tituloVaga:
-                    vaga.tituloVaga,
-                percentual:
-                    percentual,
-                classificacao:
-                    classificacao
+                tituloVaga: vaga.tituloVaga,
+                percentual: percentual,
+                classificacao: classificacao,
+                habilidadesFaltantes: habilidadesFaltantes,
+                bonusExperiencia: bonusExperiencia,
+                pontuacaoFinal: pontuacaoFinal
             };
         }
     );
 }
 
-// ==============================
-// CLOSURE
-// ==============================
+
+/*
+ * ============================================================
+ * CLOSURE
+ * ============================================================
+ */
 
 function criarContadorAnalises() {
 
@@ -391,9 +587,12 @@ function criarContadorAnalises() {
 const contarAnalise =
     criarContadorAnalises();
 
-// ==============================
-// CALLBACK
-// ==============================
+
+/*
+ * ============================================================
+ * CALLBACK
+ * ============================================================
+ */
 
 function analisarVaga(
     candidato,
@@ -412,6 +611,17 @@ function analisarVaga(
             percentual
         );
 
+    const bonusExperiencia =
+        calcularBonusExperiencia(
+            candidato.tempoExperienciaMeses
+        );
+
+    const pontuacaoFinal =
+        calcularPontuacaoFinal(
+            candidato,
+            vaga
+        );
+
     const numeroAnalise =
         contarAnalise();
 
@@ -419,25 +629,49 @@ function analisarVaga(
         vaga,
         percentual,
         classificacao,
+        bonusExperiencia,
+        pontuacaoFinal,
         numeroAnalise
     );
 }
+
 
 function exibirResultadoVaga(
     vaga,
     percentual,
     classificacao,
+    bonusExperiencia,
+    pontuacaoFinal,
     numeroAnalise
 ) {
 
     console.log(
-        `Análise ${numeroAnalise}: ${vaga.empresa} - ${percentual}% - ${classificacao}`
+        `Análise ${numeroAnalise}: ${vaga.empresa}`
+    );
+
+    console.log(
+        `Compatibilidade técnica: ${percentual}%`
+    );
+
+    console.log(
+        `Classificação: ${classificacao}`
+    );
+
+    console.log(
+        `Bônus de experiência: +${bonusExperiencia} pontos`
+    );
+
+    console.log(
+        `Pontuação final: ${pontuacaoFinal} pontos`
     );
 }
 
-// ==============================
-// FUNÇÃO DE EXIBIÇÃO DO HISTÓRICO
-// ==============================
+
+/*
+ * ============================================================
+ * FUNÇÃO DE EXIBIÇÃO DO HISTÓRICO
+ * ============================================================
+ */
 
 function exibirHistorico(
     candidatoAnalisado,
@@ -457,6 +691,13 @@ function exibirHistorico(
         "==============================\n"
     );
 
+
+    /*
+     * ========================================================
+     * DADOS DO CANDIDATO
+     * ========================================================
+     */
+
     console.log(
         `Candidato: ${candidatoAnalisado.nome}`
     );
@@ -473,9 +714,12 @@ function exibirHistorico(
         `Habilidades: ${candidatoAnalisado.habilidades.join(", ")}`
     );
 
-    // ==============================
-    // EXIBIÇÃO DAS VAGAS
-    // ==============================
+
+    /*
+     * ========================================================
+     * EXIBIÇÃO DAS VAGAS
+     * ========================================================
+     */
 
     console.log(
         "\n=== VAGAS CADASTRADAS ===\n"
@@ -492,9 +736,12 @@ function exibirHistorico(
         );
     }
 
-    // ==============================
-    // EXIBIÇÃO DOS RESULTADOS
-    // ==============================
+
+    /*
+     * ========================================================
+     * RESULTADOS DE COMPATIBILIDADE
+     * ========================================================
+     */
 
     console.log(
         "\n=== RESULTADOS DE COMPATIBILIDADE ===\n"
@@ -510,19 +757,92 @@ function exibirHistorico(
         (resultado) => {
 
             console.log(
-                `${resultado.empresa} - ${resultado.percentual}% - ${resultado.classificacao}`
+                `Empresa: ${resultado.empresa}`
+            );
+
+            console.log(
+                `Vaga: ${resultado.tituloVaga}`
+            );
+
+            console.log(
+                `Compatibilidade técnica: ${resultado.percentual}%`
+            );
+
+            console.log(
+                `Classificação: ${resultado.classificacao}`
+            );
+
+            console.log(
+                `Bônus de experiência: +${resultado.bonusExperiencia} pontos`
+            );
+
+            console.log(
+                `Pontuação final: ${resultado.pontuacaoFinal} pontos`
+            );
+
+
+            /*
+             * =================================================
+             * HABILIDADES FALTANTES POR VAGA
+             * =================================================
+             */
+
+            if (
+                resultado.habilidadesFaltantes.length === 0
+            ) {
+
+                console.log(
+                    "Habilidades faltantes: nenhuma"
+                );
+
+            } else {
+
+                const nomesHabilidadesFaltantes =
+                    resultado.habilidadesFaltantes.map(
+                        (requisito) => {
+                            return requisito.habilidade;
+                        }
+                    );
+
+                console.log(
+                    `Habilidades faltantes: ${nomesHabilidadesFaltantes.join(", ")}`
+                );
+            }
+
+            console.log(
+                "------------------------------"
             );
         }
     );
 
-    // ==============================
-    // MELHOR VAGA
-    // ==============================
+
+    /*
+     * ========================================================
+     * MELHOR VAGA
+     * ========================================================
+     */
 
     const melhorVaga =
         encontrarMelhorVaga(
             candidatoAnalisado,
             vagasAnalisadas
+        );
+
+    const melhorCompatibilidade =
+        calcularCompatibilidade(
+            candidatoAnalisado,
+            melhorVaga
+        );
+
+    const melhorBonus =
+        calcularBonusExperiencia(
+            candidatoAnalisado.tempoExperienciaMeses
+        );
+
+    const melhorPontuacao =
+        calcularPontuacaoFinal(
+            candidatoAnalisado,
+            melhorVaga
         );
 
     console.log(
@@ -533,9 +853,29 @@ function exibirHistorico(
         `${melhorVaga.tituloVaga} - ${melhorVaga.empresa}`
     );
 
-    // ==============================
-    // RECOMENDAÇÃO DE ESTUDO
-    // ==============================
+    console.log(
+        `Compatibilidade técnica: ${melhorCompatibilidade}%`
+    );
+
+    console.log(
+        `Bônus de experiência: +${melhorBonus} pontos`
+    );
+
+    console.log(
+        `Pontuação final: ${melhorPontuacao} pontos`
+    );
+
+
+    /*
+     * ========================================================
+     * RECOMENDAÇÃO DE ESTUDO
+     * ========================================================
+     *
+     * Mantemos a CodeWave como vaga de referência para a
+     * recomendação porque ela possui React e TypeScript entre
+     * seus requisitos e permite demonstrar a identificação
+     * de habilidades faltantes.
+     */
 
     const vagaParaEstudo =
         vagasAnalisadas[2];
@@ -551,12 +891,19 @@ function exibirHistorico(
     );
 
     console.log(
+        `Vaga analisada: ${vagaParaEstudo.tituloVaga} - ${vagaParaEstudo.empresa}`
+    );
+
+    console.log(
         recomendacao
     );
 
-    // ==============================
-    // CALLBACK
-    // ==============================
+
+    /*
+     * ========================================================
+     * CALLBACK
+     * ========================================================
+     */
 
     console.log(
         "\n=== ANÁLISE COM CALLBACK ===\n"
@@ -568,26 +915,26 @@ function exibirHistorico(
         exibirResultadoVaga
     );
 }
-    );
-}
 
-// ==============================
-// HISTÓRICO INICIAL
-// ==============================
+
+/*
+ * ============================================================
+ * HISTÓRICO INICIAL
+ * ============================================================
+ */
 
 exibirHistorico(
     candidato,
     vagas,
     "SKILLMATCH JS"
 );
-    candidato,
-    vagas,
-    "SKILLMATCH JS"
-);
 
-// ==============================
-// DEMONSTRAÇÃO DE CLASSE E HERANÇA
-// ==============================
+
+/*
+ * ============================================================
+ * DEMONSTRAÇÃO DE CLASSE E HERANÇA
+ * ============================================================
+ */
 
 console.log(
     "\n=== CLASSE E HERANÇA ===\n"
@@ -601,13 +948,19 @@ console.log(
     vagaJus9.exibirTecnologiaPrincipal()
 );
 
-// ==============================
-// PROMISE E ASYNC
-// ==============================
 
-// ==============================
-// PROMISE
-// ==============================
+/*
+ * ============================================================
+ * PROMISE E ASYNC/AWAIT
+ * ============================================================
+ */
+
+
+/*
+ * ============================================================
+ * PROMISE
+ * ============================================================
+ */
 
 function carregarVagas() {
 
@@ -617,8 +970,11 @@ function carregarVagas() {
             setTimeout(
                 () => {
 
-                    // Altere para false
-                    // para testar o erro
+                    /*
+                     * Altere para false
+                     * para testar o tratamento de erro.
+                     */
+
                     const carregamentoComSucesso =
                         true;
 
@@ -627,6 +983,7 @@ function carregarVagas() {
                     ) {
 
                         resolve(vagas);
+
                     } else {
 
                         reject(
@@ -641,9 +998,12 @@ function carregarVagas() {
     );
 }
 
-// ==============================
-// FUNÇÃO ASYNC
-// ==============================
+
+/*
+ * ============================================================
+ * FUNÇÃO ASYNC
+ * ============================================================
+ */
 
 async function iniciarCarregamento() {
 
@@ -673,22 +1033,33 @@ async function iniciarCarregamento() {
     }
 }
 
-// ==============================
-// ETAPA 5 - PROMPT DO USUÁRIO
-// ==============================
 
-// ==============================
-// IMPORTAÇÃO DO PROMPT-SYNC
-// ==============================
+/*
+ * ============================================================
+ * ETAPA 5 - PROMPT DO USUÁRIO
+ * ============================================================
+ */
+
+
+/*
+ * ============================================================
+ * IMPORTAÇÃO DO PROMPT-SYNC
+ * ============================================================
+ */
 
 const prompt =
     require("prompt-sync")();
 
-// ==============================
-// FUNÇÃO PARA CONVERTER NÚMEROS
-// ==============================
 
-function solicitarNumero(mensagem) {
+/*
+ * ============================================================
+ * FUNÇÃO PARA CONVERTER E VALIDAR NÚMEROS
+ * ============================================================
+ */
+
+function solicitarNumero(
+    mensagem
+) {
 
     let numero;
 
@@ -700,7 +1071,9 @@ function solicitarNumero(mensagem) {
         numero =
             Number(resposta);
 
-        if (Number.isNaN(numero)) {
+        if (
+            Number.isNaN(numero)
+        ) {
 
             console.log(
                 "Digite um valor numérico válido."
@@ -714,9 +1087,12 @@ function solicitarNumero(mensagem) {
     return numero;
 }
 
-// ==============================
-// CADASTRO DE CANDIDATO
-// ==============================
+
+/*
+ * ============================================================
+ * CADASTRO DE CANDIDATO
+ * ============================================================
+ */
 
 function cadastrarCandidato() {
 
@@ -775,12 +1151,19 @@ function cadastrarCandidato() {
         "\nCandidato cadastrado com sucesso."
     );
 
+    console.log(
+        `Bônus de experiência: +${calcularBonusExperiencia(tempoExperienciaMeses)} pontos`
+    );
+
     return novoCandidato;
 }
 
-// ==============================
-// CADASTRO DE VAGA
-// ==============================
+
+/*
+ * ============================================================
+ * CADASTRO DE VAGA
+ * ============================================================
+ */
 
 function cadastrarVaga() {
 
@@ -940,9 +1323,12 @@ function cadastrarVaga() {
     return novaVaga;
 }
 
-// ==============================
-// MENU INICIAL
-// ==============================
+
+/*
+ * ============================================================
+ * MENU INICIAL
+ * ============================================================
+ */
 
 console.log(
     "\n=============================="
@@ -977,9 +1363,12 @@ const opcaoUsuario =
         "\nEscolha uma opção: "
     );
 
-// ==============================
-// ESCOLHA DA OPERAÇÃO
-// ==============================
+
+/*
+ * ============================================================
+ * ESCOLHA DA OPERAÇÃO
+ * ============================================================
+ */
 
 if (
     opcaoUsuario === "1"
@@ -1050,8 +1439,11 @@ if (
     );
 }
 
-// ==============================
-// EXECUÇÃO ASSÍNCRONA
-// ==============================
+
+/*
+ * ============================================================
+ * EXECUÇÃO ASSÍNCRONA
+ * ============================================================
+ */
 
 iniciarCarregamento();
