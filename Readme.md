@@ -18,7 +18,7 @@ A partir dessa comparação, o programa deverá informar:
 - a vaga com maior compatibilidade;
 - uma recomendação de estudo para o candidato.
 
-## Status do projeto
+## Status do projeto.
 
 **Em desenvolvimento.**
 
