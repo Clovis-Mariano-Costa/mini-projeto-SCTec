@@ -24,6 +24,9 @@
 // PERFIL DO CANDIDATO
 // ==============================
 
+// PERFIL DO CANDIDATO
+// ==============================
+
 const candidato = {
     nome: "Clovis Mariano da Costa",
     areaInteresse: "Desenvolvimento Front-End",
@@ -383,3 +386,76 @@ analisarVaga(
     vagaJus9,
     exibirResultadoVaga
 );
+
+
+
+// ==============================
+// COMPATIBILIDADE
+// ==============================
+
+
+
+
+// ==============================
+// Classes e Heranças
+// ==============================
+
+
+
+
+// ==============================
+// Promise e Async
+// ==============================
+
+// ==============================
+// PROMISE
+// ==============================
+
+function carregarVagas() {
+
+    return new Promise((resolve, reject) => {
+
+        setTimeout(() => {
+
+            // Altere para false para testar o tratamento de erro
+            const carregamentoComSucesso = true;
+
+            if (carregamentoComSucesso) {
+                resolve(vagas);
+            } else {
+                reject("Erro ao carregar as vagas.");
+            }
+
+        }, 2000);
+
+    });
+}
+
+
+// ==============================
+// FUNÇÃO ASYNC
+// ==============================
+
+async function iniciarCarregamento() {
+
+    try {
+
+        const vagasCarregadas = await carregarVagas();
+
+        console.log(
+            "Vagas carregadas com sucesso:",
+            vagasCarregadas
+        );
+
+    } catch (erro) {
+
+        console.log(
+            "Ocorreu um erro:",
+            erro
+        );
+
+    }
+}
+
+iniciarCarregamento();
+
