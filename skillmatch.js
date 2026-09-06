@@ -85,6 +85,86 @@ const vagas = [
 ];
 
 // ==============================
+// CLASSE PRINCIPAL
+// ==============================
+
+class Vaga {
+    constructor(
+        tituloVaga,
+        empresa,
+        modalidade,
+        localizacao,
+        requisitos,
+        salario
+    ) {
+        this.tituloVaga = tituloVaga;
+        this.empresa = empresa;
+        this.modalidade = modalidade;
+        this.localizacao = localizacao;
+        this.requisitos = requisitos;
+        this.salario = salario;
+    }
+
+    exibirResumo() {
+        return `${this.tituloVaga} - ${this.empresa} - ${this.modalidade} - R$ ${this.salario}`;
+    }
+}
+
+// ==============================
+// CLASSE FILHA
+// ==============================
+
+class VagaFrontEnd extends Vaga {
+    constructor(
+        tituloVaga,
+        empresa,
+        modalidade,
+        localizacao,
+        requisitos,
+        salario,
+        frameworkPrincipal
+    ) {
+        super(
+            tituloVaga,
+            empresa,
+            modalidade,
+            localizacao,
+            requisitos,
+            salario
+        );
+
+        this.frameworkPrincipal = frameworkPrincipal;
+    }
+
+    exibirTecnologiaPrincipal() {
+        return `Tecnologia principal da vaga: ${this.frameworkPrincipal}`;
+    }
+}
+
+// ==============================
+// INSTÂNCIA DA CLASSE FILHA
+// ==============================
+
+const vagaJus9 = new VagaFrontEnd(
+    "Desenvolvedor Front-End Júnior",
+    "Jus 9 Tecnologia Jurídica",
+    "Remoto",
+    "São José/SC",
+    [
+        { habilidade: "HTML", peso: 25 },
+        { habilidade: "CSS", peso: 25 },
+        { habilidade: "JavaScript", peso: 50 }
+    ],
+    5250,
+    "JavaScript"
+);
+
+vagas.push(vagaJus9);
+
+console.log(vagaJus9.exibirResumo());
+console.log(vagaJus9.exibirTecnologiaPrincipal());
+
+// ==============================
 // CÁLCULO DE COMPATIBILIDADE
 // ==============================
 
@@ -112,6 +192,7 @@ function calcularCompatibilidade(candidato, vaga) {
 
     return percentual;
 }
+
 // ==============================
 // CLASSIFICAÇÃO DA COMPATIBILIDADE
 // ==============================
@@ -130,9 +211,6 @@ function classificarCompatibilidade(percentual) {
 console.log(classificarCompatibilidade(100));
 console.log(classificarCompatibilidade(60));
 console.log(classificarCompatibilidade(30));
-
-
-
 
 // ==============================
 // HABILIDADES FALTANTES
@@ -205,7 +283,6 @@ function criarRecomendacaoEstudo(candidato, vaga) {
     return `Priorize o estudo de ${habilidadePrioritaria.habilidade}, pois essa habilidade possui peso ${habilidadePrioritaria.peso} nesta vaga.`;
 }
 
-
 const recomendacao = criarRecomendacaoEstudo(
     candidato,
     vagas[2]
@@ -213,3 +290,57 @@ const recomendacao = criarRecomendacaoEstudo(
 
 console.log(recomendacao);
 
+// ==============================
+// CLOSURE
+// ==============================
+
+function criarContadorAnalises() {
+
+    let totalAnalises = 0;
+
+    return function () {
+        totalAnalises++;
+
+        return totalAnalises;
+    };
+}
+
+const contarAnalise = criarContadorAnalises();
+
+// ==============================
+// CALLBACK
+// ==============================
+
+function analisarVaga(candidato, vaga, callback) {
+
+    const percentual = calcularCompatibilidade(candidato, vaga);
+
+    const classificacao = classificarCompatibilidade(percentual);
+
+    const numeroAnalise = contarAnalise();
+
+    callback(
+        vaga,
+        percentual,
+        classificacao,
+        numeroAnalise
+    );
+}
+
+function exibirResultadoVaga(
+    vaga,
+    percentual,
+    classificacao,
+    numeroAnalise
+) {
+
+    console.log(
+        `Análise ${numeroAnalise}: ${vaga.empresa} - ${percentual}% - ${classificacao}`
+    );
+}
+
+analisarVaga(
+    candidato,
+    vagaJus9,
+    exibirResultadoVaga
+);
