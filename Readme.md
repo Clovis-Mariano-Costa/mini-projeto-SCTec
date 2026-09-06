@@ -5,6 +5,10 @@ Mini-Projeto Avaliativo do Módulo 01 do curso de **Programação Front-End Reac
 ---
 
 ## Sobre o projeto
+Em tempo, nota de erro:
+Ao criar o projeto coloquei por engano (IFSC); Em alguns endereços;
+Já troquei o que lembrei e tinha acesso; Via de regra leia-se SCTec no lugar de IFSC.
+
 
 O **SkillMatch JS** é um simulador de compatibilidade entre o perfil de uma pessoa candidata e vagas de tecnologia, com foco principal em oportunidades para desenvolvimento Front-End Júnior.
 
@@ -159,7 +163,7 @@ Clone o repositório ou faça o download do projeto.
 Repositório:
 
 ```text
-https://github.com/Clovis-Mariano-Costa/mini-projeto-ifsc
+https://github.com/Clovis-Mariano-Costa/mini-projeto-SCTec
 ```
 
 Depois entre na pasta do projeto pelo terminal.
@@ -2193,13 +2197,12 @@ Também será explicado no vídeo:
 
 ## Repositório no GitHub
 
-https://github.com/Clovis-Mariano-Costa/mini-projeto-ifsc
-
+https://github.com/Clovis-Mariano-Costa/mini-projeto-SCTec
 ---
 
 ## GitHub Pages
 
-https://clovis-mariano-costa.github.io/mini-projeto-ifsc/
+https://clovis-mariano-costa.github.io/mini-projeto-SCTec/
 
 > **Observação:** a execução interativa completa do sistema utiliza Node.js e `prompt-sync`. Portanto, o sistema deve ser executado localmente pelo terminal com `node skillmatch.js`. O GitHub Pages não executa o fluxo interativo em Node.js.
 
