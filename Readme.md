@@ -1,6 +1,6 @@
 # SkillMatch JS
 
-Mini-Projeto Avaliativo do Módulo 01 do curso de **Programação Front-End React — IFSC**.
+Mini-Projeto Avaliativo do Módulo 01 do curso de **Programação Front-End React — SCTec**.
 
 ---
 
@@ -1578,7 +1578,7 @@ HISTÓRICO ATUALIZADO
 A estrutura principal do repositório é semelhante a:
 
 ```text
-mini-projeto-ifsc/
+mini-projeto-SCTec/
 │
 ├── Imagens/
 │   └── capturas de tela do Kanban
@@ -2189,8 +2189,7 @@ Também será explicado no vídeo:
 
 ## Link do vídeo
 
-**PENDENTE — adicionar após a gravação.**
-
+https://drive.google.com/file/d/1NQMhUX4bLHRqb1Mcgq1m8UxbtJTAsSMb/view?usp=sharing
 ---
 
 # Links do projeto
@@ -2210,7 +2209,9 @@ https://clovis-mariano-costa.github.io/mini-projeto-SCTec/
 
 ## Kanban no Trello
 
-https://trello.com/b/3ZZNHAub/mini-projeto-ifsc
+https://trello.com/invite/b/6a94a630c5e993c47cc90980/ATTIe88812b48beaceafc52fc324852fabff0E5FE055/mini-projeto-sctec
+
+
 
 
 ## Link para arquivos de apoio
@@ -2224,7 +2225,7 @@ https://drive.google.com/drive/folders/1xtAXf1iaC8RSCRCvzdZehlKCeWOY0iF7?usp=sha
 **Clovis Mariano da Costa**
 
 Mini-Projeto Avaliativo do Módulo 01  
-Programação Front-End React — IFSC
+Programação Front-End React — SCTec
 
 ---
 
@@ -2272,14 +2273,9 @@ Git e GitHub
 README
 ```
 
-Pendência:
 
-```text
-Gravar o vídeo de apresentação
-Adicionar o link do vídeo
-Enviar os links no AVA
 ```
 
 ---
 
-**SkillMatch JS — Mini-Projeto Avaliativo — IFSC**
+**SkillMatch JS — Mini-Projeto Avaliativo — SCTec**
